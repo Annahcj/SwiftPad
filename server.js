@@ -4,7 +4,11 @@ const app = express();
 const Document = require('./models/Document');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://user123:test987@cluster0.lodca.mongodb.net/wastebin?retryWrites=true&w=majority');
+
+const mongoURI = require('./config/keys.js').mongoURI;
+mongoose.connect(mongoURI)
+.then(() => console.log('MongoDB Connected'))
+.catch(err => console.log(err));
 
 app.set('view engine', 'ejs');
 
