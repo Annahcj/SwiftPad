@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
+</head>
+<body>
+    <div class="buttons-wrapper">
+        <a href="/" class="logo">SwiftPad</a>
+        <div class="buttons">
+            <a href="/new" class="btn new">
+                <span class="material-icons" data-description="new">
+                open_in_new
+                </span>
+            </a>
+                <button class="btn save <%= locals.newPage ? '' : 'disabled' %>" type="submit">
+                    <span class="material-icons" data-description="save">
+                    save_alt
+                    </span>
+                </button>
+                <a href="/<%= locals.id %>/duplicate" class="btn duplicate <%= locals.newPage ? 'disabled' : '' %>">
+                    <span class="material-icons" data-description="duplicate">
+                    content_copy
+                    </span>
+                </a>
+                <button class="copy-url btn <%= locals.newPage ? 'disabled' : '' %>">
+                    <span class="material-icons" data-description="copy url">
+                    link
+                    </span>
+                </button>
+
+                <button class="btn email <%= locals.newPage ? 'disabled' : '' %>">
+                    <span class="material-icons" data-description="email">
+                        mail_outline
+                    </span>
+                </button>
+        </div>
+        <div class="tooltip" style="display: none;">
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    const copyURLButton = document.querySelector(".copy-url");
+    const tooltip = document.querySelector('.tooltip');
+
+    if (copyURLButton) {
+        copyURLButton.addEventListener("click", (e) => {
+        let url = window.location.href;
+        navigator.clipboard.writeText(url);
+        tooltip.innerText = 'url copied'
+
+        console.log('copied')
+    });
+    }
+
+
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(button => {
+        button.addEventListener("mouseover", (e) => {
+            let tooltiptext = button.querySelector('span').dataset.description;
+            tooltip.style.display = 'block';
+            tooltip.innerText = tooltiptext;
+        })  
+        button.addEventListener("mouseleave", () => {
+            tooltip.style.display = 'none';
+        })
+    })
+
+    const emailButton = document.querySelector('.email');
+    emailButton.addEventListener('click', () => {
+        let url = window.location.href;
+        let emailURL = `mailto:user@example.com?subject=SwiftPad url&body=${url}`;
+        window.location.href = emailURL;
+    })
+
+
+</script>
